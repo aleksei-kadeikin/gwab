@@ -1,4 +1,4 @@
-{
+export default {
     "data": {
       "work_surfs": {
         "data": [

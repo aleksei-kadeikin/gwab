@@ -1,7 +1,7 @@
 import { COOKIE, DATES, YEAR, WEEK} from './consts.js';
 import fetch from 'node-fetch';
 import cookie from 'cookie';
-import DATA from './data2.js';
+import DATA from './data/data2.js';
 
 let XSRF_TOKEN = '';
 
