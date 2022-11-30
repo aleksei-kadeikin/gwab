@@ -1,7 +1,6 @@
 import { COOKIE, DATES, YEAR, WEEK} from './consts.js';
 import fetch from 'node-fetch';
 import cookie from 'cookie';
-import DATA from './data/data2.js';
 
 let XSRF_TOKEN = '';
 
@@ -20,7 +19,7 @@ const dataFetch = async () =>  {
 };
 
 async function findShifts(dates = DATES, sShifts = [], data, canAdjust = true) {
-    if(data === undefined) data = DATA;
+    if(data === undefined) data = await dataFetch();
 
     const shifts = data.data.work_surfs.data[0].periods.data.filter(x => x.status === 'open')
     
@@ -103,7 +102,7 @@ function setToken(response){
 async function a() {
     const shifts = await findShifts();
     shifts.forEach((x) => console.log(x.start_date, x.end_date));
-    //await pickShifts(shifts);
+    await pickShifts(shifts);
 }
 
 a();
