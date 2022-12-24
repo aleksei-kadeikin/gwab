@@ -26,7 +26,7 @@ export async function pickShifts(shifts = []) {
     })
 }
 
-export const shiftRequest = shift => new Promise(resolve => resolve(fetch(`https://goworkabit.com/workbiter/work-surf/229/schedule/project/${shift.project_id}/period/${shift.id}`, {
+const shiftRequest = shift => new Promise(resolve => resolve(fetch(`https://goworkabit.com/workbiter/work-surf/229/schedule/project/${shift.project_id}/period/${shift.id}`, {
     method: 'POST',
     headers: {
         "accept": "application/json, text/plain, */*",
@@ -45,7 +45,7 @@ export const shiftRequest = shift => new Promise(resolve => resolve(fetch(`https
       },
 })));
 
-export function setToken(response){
+function setToken(response){
     console.log(response.status, response.statusText);
     XSRF_TOKEN = cookie.parse(response.headers.get('set-cookie'))['XSRF-TOKEN'];
 }
