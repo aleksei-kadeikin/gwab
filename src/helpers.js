@@ -10,7 +10,7 @@ export function getLongestShift(dates) {
 
         const diff = Math.abs(start - end);
 
-        if (diff > longest) {
+        if (diff > longest || (isWeekend(new Date(date.end_date)) && diff === longest && new Date(longestShift.end_date) < new Date(date.end_date))) {
             longest = diff;
             longestShift = date;
         }
@@ -18,6 +18,11 @@ export function getLongestShift(dates) {
 
     return longestShift;
 }  
+
+function isWeekend(date) {
+    const dayOfWeek = date.getDay();
+    return dayOfWeek === 0 || dayOfWeek === 6;
+  }
 
 export function getOnlyDate(date) {
     return date instanceof Date ? date.toLocaleDateString() : new Date(date).toLocaleDateString()
