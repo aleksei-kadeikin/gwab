@@ -10,7 +10,7 @@ export function getLongestShift(dates) {
 
         const diff = Math.abs(start - end);
 
-        if (diff > longest || (isSaturday(new Date(date.end_date)) && diff === longest && new Date(longestShift.end_date) < new Date(date.end_date))) {
+        if (diff > longest || (isFridayShift(date) && diff === longest && new Date(longestShift.end_date) < new Date(date.end_date))) {
             longest = diff;
             longestShift = date;
         }
@@ -19,9 +19,10 @@ export function getLongestShift(dates) {
     return longestShift;
 }  
 
-function isSaturday(date) {
-    const dayOfWeek = date.getDay();
-    return dayOfWeek === 6;
+function isFridayShift(date) {
+    const startOnFriday = (new Date(date.start_date)).getDay() === 5;
+    const finishOnSaturday = (new Date(date.end_date)).getDay() === 6;
+    return startOnFriday && finishOnSaturday;
   }
 
 export function getOnlyDate(date) {
