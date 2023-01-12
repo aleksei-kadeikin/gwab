@@ -1,4 +1,57 @@
-export function getLongestShift(dates) {
+export function getOpenShifts(data) {
+    return data.filter((x) => x.status === 'open');
+}
+
+export function getUniqueStartDates(shifts, dates) {
+    return Array.from(
+        new Set(
+            shifts
+                .filter((shift) =>
+                    dates.some(
+                        (date) =>
+                            new Date(shift.start_date) >= date.start_date &&
+                            new Date(shift.end_date) <= date.end_date
+                    )
+                )
+                .map((x) => x.start_date)
+        )
+    );
+}
+
+export function getLongestShiftsByStartDates(uniqueStartDates, flattenedShifts, dates) {
+    return new Map(
+        uniqueStartDates.map((date) => {
+            const filteredShifts = filterFlattenedShifts(flattenedShifts, date, dates);
+            return [getOnlyDate(date), getLongestShift(filteredShifts)];
+        })
+    );
+}
+
+function filterFlattenedShifts(flattenedShifts, date, dates) {
+    return flattenedShifts.filter((shift) => {
+        const shiftStart = getOnlyDate(shift.start_date);
+        return (
+            shiftStart === getOnlyDate(date) &&
+            dates.some((dateRange) => {
+                return (
+                    dateRange.end_date.getTime() === new Date(shift.end_date).getTime() &&
+                    dateRange.end_date >= new Date(shift.end_date)
+                );
+            })
+        );
+    });
+}
+
+export function getShiftsByStartDate(openShifts, uniqueStartDates) {
+    return new Map(
+        uniqueStartDates.map((date) => [
+            date,
+            openShifts.filter((shift) => shift.start_date === date)
+        ])
+    );
+}
+
+function getLongestShift(dates) {
     if (!dates.length) return null;
 
     let longest = 0;
