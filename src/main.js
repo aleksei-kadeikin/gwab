@@ -22,9 +22,10 @@ export async function findShifts(data, dates = DATES, adjust = true) {
         dates
     );
 
-    const missingDates = DATES.map((x) => getOnlyDate(x.start_date)).filter(
-        (x) => !Array.from(longestShiftsByStartDate.keys()).includes(x)
-    );
+    const missingDates = DATES.filter(
+        (date) => !longestShiftsByStartDate.has(getOnlyDate(date.start_date))
+    ).map((date) => getOnlyDate(date.start_date));
+    
     if (missingDates.length && adjust) {
         const datesForSearch = DATES.filter((date) =>
             missingDates.includes(getOnlyDate(date.start_date))

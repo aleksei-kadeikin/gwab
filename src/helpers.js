@@ -34,7 +34,7 @@ function filterFlattenedShifts(flattenedShifts, date, dates) {
             shiftStart === getOnlyDate(date) &&
             dates.some((dateRange) => {
                 return (
-                    dateRange.end_date.getTime() === new Date(shift.end_date).getTime() &&
+                    new Date(shift.start_date).getTime() >= dateRange.start_date.getTime() &&
                     dateRange.end_date >= new Date(shift.end_date)
                 );
             })
