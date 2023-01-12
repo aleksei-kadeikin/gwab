@@ -8,7 +8,7 @@ import {
 import { DATES } from '../consts.js';
 import { fetchData } from './api.js';
 
-export async function findShifts(dates = DATES, data, adjust = true) {
+export async function findShifts(data, dates = DATES, adjust = true) {
     if (data === undefined) data = await fetchData();
 
     const openShifts = getOpenShifts(data.data.work_surfs.data[0].periods.data);
@@ -31,7 +31,7 @@ export async function findShifts(dates = DATES, data, adjust = true) {
         );
         datesForSearch.forEach((date) => date.start_date.setHours(date.start_date.getHours() - 1));
         return Array.from(longestShiftsByStartDate.values()).concat(
-            await findShifts(datesForSearch, data, false)
+            await findShifts(data, datesForSearch, false)
         );
     }
 
