@@ -4,7 +4,7 @@ import cookie from 'cookie';
 
 let XSRF_TOKEN = '';
 
-export const dataFetch = async () =>  {
+export const fetchData = async () =>  {
     const response = await fetch(`https://goworkabit.com/workbiter/dashboard/calendar?year=${YEAR}&week=${WEEK}`, {
         method: 'GET',
         headers: {
